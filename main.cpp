@@ -10,7 +10,7 @@ int main()
 		std::cout << "Health: " << aliens.at( i ).health << std::endl;
 		std::cout << "Strength: " << aliens.at( i ).strength << std::endl;
 		std::cout << "Intelligence: " << aliens.at( i ).intelligence << std::endl;
-		std::cout << "Speices: " << aliens.at( i ).speices << std::endl;
+                std::cout << "Species: " << aliens.at( i ).species << std::endl;
 		std::cout << "Color: " << aliens.at( i ).color << std::endl;
 		std::cout << "Height: " << std::fixed << std::setprecision(1) << aliens.at( i ).height << std::endl;
 		std::cout << "Weight: " << std::fixed << std::setprecision(1) << aliens.at( i ).weight << std::endl;
