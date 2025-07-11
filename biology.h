@@ -1,0 +1,109 @@
+#pragma once
+#include "cell.h"
+#include <string>
+#include <vector>
+#include <memory>
+#include <cstddef>
+
+struct tissue {
+    std::string name;
+    std::vector<cell> cells;
+};
+
+class organ {
+public:
+    std::string name;
+    std::vector<tissue> tissues;
+    virtual ~organ() = default;
+};
+
+class brain : public organ {
+public:
+    void* memory{};
+    std::size_t capacity{};
+
+    explicit brain(bool super_gene = false) {
+        name = "Brain";
+        capacity = super_gene ? 2048 : 1024;
+        memory = ::operator new(capacity);
+    }
+
+    ~brain() override {
+        ::operator delete(memory);
+    }
+};
+
+class heart : public organ {
+public:
+    int chambers{};
+
+    explicit heart(bool super_gene = false) {
+        name = "Heart";
+        chambers = super_gene ? 5 : 4;
+    }
+};
+
+class muscle : public organ {
+public:
+    int fibers{};
+
+    explicit muscle(bool super_gene = false) {
+        name = "Muscle";
+        fibers = super_gene ? 200 : 100;
+    }
+};
+
+class lung : public organ {
+public:
+    int capacity{};
+
+    explicit lung(bool super_gene = false) {
+        name = "Lung";
+        capacity = super_gene ? 2000 : 1000;
+    }
+};
+
+class liver : public organ {
+public:
+    int detox_level{};
+
+    explicit liver(bool super_gene = false) {
+        name = "Liver";
+        detox_level = super_gene ? 2 : 1;
+    }
+};
+
+class kidney : public organ {
+public:
+    int filter_rate{};
+
+    explicit kidney(bool super_gene = false) {
+        name = "Kidney";
+        filter_rate = super_gene ? 3 : 1;
+    }
+};
+
+class eye : public organ {
+public:
+    bool night_vision{};
+
+    explicit eye(bool super_gene = false) {
+        name = "Eye";
+        night_vision = super_gene;
+    }
+};
+
+class epidermis : public organ {
+public:
+    bool camouflage{};
+
+    explicit epidermis(bool super_gene = false) {
+        name = "Skin";
+        camouflage = super_gene;
+    }
+};
+
+struct body {
+    std::vector<std::shared_ptr<organ>> organs;
+};
+

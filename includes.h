@@ -1,11 +1,11 @@
 #pragma once
 
 #include <iostream>
-#include <Windows.h>
 #include <vector>
 #include <string>
 #include <random>
 #include <thread>
+#include <mutex>
 #include <chrono>
 #include <string_view>
 

@@ -88,8 +88,8 @@ class cell
 public:
 
 
-	nucleus nucleus;
-	telomere telomere;
+        nucleus nucleus_data;
+        telomere cell_telomere;
 
 	static void set_all_genes(  vector <cell>& cells, int chromosome_count, string sequence );
 	static void set_health_gene(  vector <cell>& cells, int chromosome_count, string sequence );
@@ -98,8 +98,8 @@ public:
 	static void set_appearance_gene( vector <cell>& cells, int chromosome_count, string sequence );
 	static void set_height_gene( vector <cell>& cells, int chromosome_count, char allele );
 	static void set_weight_gene( vector <cell>& cells, int chromosome_count, char allele );
-	static void replication_thread( replication_structure* data );
-	static void replicate( cell target_cell, vector<cell>& cells, int rate );
+        static void replication_thread( replication_structure data );
+        static void replicate( cell target_cell, vector<cell>& cells, int rate );
 	static cell base_cell( int chromosome_count, string sequence );
 	static cell make_cell( int chromosome_count, string sequence );
 };
@@ -107,7 +107,7 @@ public:
 
 struct replication_structure
 {
-	cell target_cell;
-	vector <cell>& cells;
-	int rate;
+        cell target_cell;
+        vector <cell>* cells;
+        int rate;
 };
