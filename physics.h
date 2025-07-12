@@ -1,6 +1,3 @@
-#ifndef PHYSICS_H
-#define PHYSICS_H
-
 #include <string>
 #include <vector>
 
@@ -24,6 +21,13 @@ struct phonon : particle {
     float amplitude{};
     phonon(float freq = 1.0f, float amp = 1.0f)
         : particle("Phonon", 0.0f, 0.0f), frequency(freq), amplitude(amp) {}
+};
+
+struct odoron : particle {
+    float molecule_weight{}; // in atomic mass units
+    float concentration{};  // arbitrary units
+    odoron(float mw = 10.0f, float conc = 1.0f)
+        : particle("Odoron", 0.0f, 0.0f), molecule_weight(mw), concentration(conc) {}
 };
 
 struct electron : particle {
@@ -55,5 +59,3 @@ struct neutrino : particle {
     neutrino(float e = 1.0f, float f = 1.0f)
         : particle("Neutrino", 0.0f, 0.0f), energy(e), flux(f) {}
 };
-
-#endif // PHYSICS_H
