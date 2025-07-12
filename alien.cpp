@@ -53,8 +53,10 @@ void alien::design( alien& newborn )
         std::shared_ptr<liver> liver_ptr = std::make_shared<liver>(liver_super);
         std::shared_ptr<kidney> kidney_ptr = std::make_shared<kidney>(kidney_super);
         std::shared_ptr<eye> eye_ptr = std::make_shared<eye>(eye_super);
+
         std::shared_ptr<ear> ear_ptr = std::make_shared<ear>(ear_super);
         std::shared_ptr<nose> nose_ptr = std::make_shared<nose>(nose_super);
+
         std::shared_ptr<epidermis> skin_ptr = std::make_shared<epidermis>(skin_super);
 
         tissue neural{"Neural"};
@@ -64,8 +66,10 @@ void alien::design( alien& newborn )
         tissue hepatic{"Hepatic"};
         tissue renal{"Renal"};
         tissue ocular{"Ocular"};
+
         tissue auditory{"Auditory"};
         tissue olfactory{"Olfactory"};
+
         tissue dermal{"Dermal"};
 
         for (int i = 0; i < cells.size(); ++i)
@@ -88,6 +92,20 @@ void alien::design( alien& newborn )
                         auditory.cells.push_back(cells[i]);
                 else if (i < 900)
                         olfactory.cells.push_back(cells[i]);
+                if (i < 150)
+                        neural.cells.push_back(cells[i]);
+                else if (i < 300)
+                        cardiac.cells.push_back(cells[i]);
+                else if (i < 450)
+                        muscular.cells.push_back(cells[i]);
+                else if (i < 600)
+                        pulmonary.cells.push_back(cells[i]);
+                else if (i < 700)
+                        hepatic.cells.push_back(cells[i]);
+                else if (i < 800)
+                        renal.cells.push_back(cells[i]);
+                else if (i < 900)
+                        ocular.cells.push_back(cells[i]);
                 else
                         dermal.cells.push_back(cells[i]);
         }

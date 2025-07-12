@@ -49,6 +49,12 @@ public:
 
     explicit brain(bool super_gene = false)
         : network( super_gene ? 8 : 4, super_gene ? 4 : 2 ) {
+    neural_network network;
+
+    explicit brain(bool super_gene = false)
+        : network( super_gene ? 8 : 4, super_gene ? 4 : 2 ) {
+
+    explicit brain(bool super_gene = false) {
         name = "Brain";
         capacity = super_gene ? 2048 : 1024;
         memory = ::operator new(capacity);
@@ -154,6 +160,10 @@ public:
 
     std::vector<float> smell(const odoron& scent) {
         return network.process({scent.molecule_weight, scent.concentration});
+
+    explicit eye(bool super_gene = false) {
+        name = "Eye";
+        night_vision = super_gene;
     }
 };
 

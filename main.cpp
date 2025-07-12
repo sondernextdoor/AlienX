@@ -9,6 +9,7 @@ int main()
         photon light{550.0f, 1.0f};
         phonon sound{2.0f, 1.0f};
         odoron scent{5.0f, 1.0f};
+
         for ( int i = 0; i < aliens.size(); i++ )
         {
 		std::cout << "Health: " << aliens.at( i ).health << std::endl;
@@ -42,6 +43,7 @@ int main()
                         {
                                 auto smell = no->smell(scent);
                                 std::cout << "Olfactory signal: " << smell[0] << ", " << smell[1] << std::endl;
+                                break;
                         }
                 }
         }
