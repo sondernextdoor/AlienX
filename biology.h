@@ -34,8 +34,6 @@ struct neural_network {
     }
 };
 
-=======
-
 class organ {
 public:
     std::string name;
@@ -47,14 +45,17 @@ class brain : public organ {
 public:
     void* memory{};
     std::size_t capacity{};
+    neural_network network;
 
+    explicit brain(bool super_gene = false)
+        : network( super_gene ? 8 : 4, super_gene ? 4 : 2 ) {
+=======
     neural_network network;
 
     explicit brain(bool super_gene = false)
         : network( super_gene ? 8 : 4, super_gene ? 4 : 2 ) {
 
     explicit brain(bool super_gene = false) {
-
         name = "Brain";
         capacity = super_gene ? 2048 : 1024;
         memory = ::operator new(capacity);
