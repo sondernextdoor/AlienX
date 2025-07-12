@@ -1,6 +1,3 @@
-#ifndef PHYSICS_H
-#define PHYSICS_H
-
 #include <string>
 #include <vector>
 
@@ -56,4 +53,9 @@ struct quark : particle {
         : particle("Quark", m, charge), flavor(std::move(flav)) {}
 };
 
-#endif // PHYSICS_H
+struct neutrino : particle {
+    float energy{}; // in MeV
+    float flux{};
+    neutrino(float e = 1.0f, float f = 1.0f)
+        : particle("Neutrino", 0.0f, 0.0f), energy(e), flux(f) {}
+};
