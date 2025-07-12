@@ -32,7 +32,8 @@ public:
 	void design( alien& newborn );
 	static alien create();
 	static int super_gene_carrier( alien subject );
-	string calculate_color();
+        string calculate_color();
+        std::string representation() const;
 	static vector <alien> create( int count );
 	alien();
 };
