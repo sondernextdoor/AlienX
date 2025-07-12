@@ -1,5 +1,6 @@
 #pragma once
 #include "cell.h"
+#include "physics.h"
 #include <string>
 #include <vector>
 #include <memory>
@@ -9,6 +10,31 @@ struct tissue {
     std::string name;
     std::vector<cell> cells;
 };
+
+struct neural_network {
+    std::vector<std::vector<float>> weights;
+    int input_size{};
+    int output_size{};
+
+    neural_network(int input = 4, int output = 2) : input_size(input), output_size(output) {
+        weights.resize(input_size);
+        for (int i = 0; i < input_size; ++i) {
+            weights[i] = random_float_array(output_size, -1.0f, 1.0f);
+        }
+    }
+
+    std::vector<float> process(const std::vector<float>& inputs) {
+        std::vector<float> outputs(output_size, 0.0f);
+        for (int j = 0; j < output_size; ++j) {
+            for (int i = 0; i < input_size && i < static_cast<int>(inputs.size()); ++i) {
+                outputs[j] += inputs[i] * weights[i][j];
+            }
+        }
+        return outputs;
+    }
+};
+
+=======
 
 class organ {
 public:
@@ -22,7 +48,13 @@ public:
     void* memory{};
     std::size_t capacity{};
 
+    neural_network network;
+
+    explicit brain(bool super_gene = false)
+        : network( super_gene ? 8 : 4, super_gene ? 4 : 2 ) {
+
     explicit brain(bool super_gene = false) {
+
         name = "Brain";
         capacity = super_gene ? 2048 : 1024;
         memory = ::operator new(capacity);
@@ -86,6 +118,17 @@ public:
 class eye : public organ {
 public:
     bool night_vision{};
+    neural_network network;
+
+    explicit eye(bool super_gene = false)
+        : network(2, 2) {
+        name = "Eye";
+        night_vision = super_gene;
+    }
+
+    std::vector<float> see(const photon& light) {
+        return network.process({light.wavelength, light.intensity});
+    }
 
     explicit eye(bool super_gene = false) {
         name = "Eye";
