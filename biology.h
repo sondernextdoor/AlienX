@@ -49,7 +49,6 @@ public:
 
     explicit brain(bool super_gene = false)
         : network( super_gene ? 8 : 4, super_gene ? 4 : 2 ) {
-=======
     neural_network network;
 
     explicit brain(bool super_gene = false)
@@ -130,6 +129,37 @@ public:
     std::vector<float> see(const photon& light) {
         return network.process({light.wavelength, light.intensity});
     }
+};
+
+class ear : public organ {
+public:
+    bool enhanced_hearing{};
+    neural_network network;
+
+    explicit ear(bool super_gene = false)
+        : network(2, 2) {
+        name = "Ear";
+        enhanced_hearing = super_gene;
+    }
+
+    std::vector<float> hear(const phonon& sound) {
+        return network.process({sound.frequency, sound.amplitude});
+    }
+};
+
+class nose : public organ {
+public:
+    bool keen_smell{};
+    neural_network network;
+
+    explicit nose(bool super_gene = false)
+        : network(2, 2) {
+        name = "Nose";
+        keen_smell = super_gene;
+    }
+
+    std::vector<float> smell(const odoron& scent) {
+        return network.process({scent.molecule_weight, scent.concentration});
 
     explicit eye(bool super_gene = false) {
         name = "Eye";

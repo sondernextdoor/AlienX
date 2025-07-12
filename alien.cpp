@@ -42,6 +42,8 @@ void alien::design( alien& newborn )
         bool liver_super = (super_gene == 111);
         bool kidney_super = (super_gene == 222);
         bool eye_super = (super_gene == 888);
+        bool ear_super = (super_gene == 666);
+        bool nose_super = (super_gene == 0);
         bool skin_super = (super_gene == 555);
 
         std::shared_ptr<brain> brain_ptr = std::make_shared<brain>(intelligence_super);
@@ -51,6 +53,10 @@ void alien::design( alien& newborn )
         std::shared_ptr<liver> liver_ptr = std::make_shared<liver>(liver_super);
         std::shared_ptr<kidney> kidney_ptr = std::make_shared<kidney>(kidney_super);
         std::shared_ptr<eye> eye_ptr = std::make_shared<eye>(eye_super);
+
+        std::shared_ptr<ear> ear_ptr = std::make_shared<ear>(ear_super);
+        std::shared_ptr<nose> nose_ptr = std::make_shared<nose>(nose_super);
+
         std::shared_ptr<epidermis> skin_ptr = std::make_shared<epidermis>(skin_super);
 
         tissue neural{"Neural"};
@@ -60,10 +66,32 @@ void alien::design( alien& newborn )
         tissue hepatic{"Hepatic"};
         tissue renal{"Renal"};
         tissue ocular{"Ocular"};
+
+        tissue auditory{"Auditory"};
+        tissue olfactory{"Olfactory"};
+
         tissue dermal{"Dermal"};
 
         for (int i = 0; i < cells.size(); ++i)
         {
+                if (i < 100)
+                        neural.cells.push_back(cells[i]);
+                else if (i < 200)
+                        cardiac.cells.push_back(cells[i]);
+                else if (i < 300)
+                        muscular.cells.push_back(cells[i]);
+                else if (i < 400)
+                        pulmonary.cells.push_back(cells[i]);
+                else if (i < 500)
+                        hepatic.cells.push_back(cells[i]);
+                else if (i < 600)
+                        renal.cells.push_back(cells[i]);
+                else if (i < 700)
+                        ocular.cells.push_back(cells[i]);
+                else if (i < 800)
+                        auditory.cells.push_back(cells[i]);
+                else if (i < 900)
+                        olfactory.cells.push_back(cells[i]);
                 if (i < 150)
                         neural.cells.push_back(cells[i]);
                 else if (i < 300)
@@ -89,6 +117,8 @@ void alien::design( alien& newborn )
         liver_ptr->tissues.push_back(hepatic);
         kidney_ptr->tissues.push_back(renal);
         eye_ptr->tissues.push_back(ocular);
+        ear_ptr->tissues.push_back(auditory);
+        nose_ptr->tissues.push_back(olfactory);
         skin_ptr->tissues.push_back(dermal);
 
         newborn.anatomy.organs.push_back(brain_ptr);
@@ -98,6 +128,8 @@ void alien::design( alien& newborn )
         newborn.anatomy.organs.push_back(liver_ptr);
         newborn.anatomy.organs.push_back(kidney_ptr);
         newborn.anatomy.organs.push_back(eye_ptr);
+        newborn.anatomy.organs.push_back(ear_ptr);
+        newborn.anatomy.organs.push_back(nose_ptr);
         newborn.anatomy.organs.push_back(skin_ptr);
 
 
@@ -322,6 +354,10 @@ int alien::super_gene_carrier( alien subject )
                         return 222;
                 if (auto ey = dynamic_cast<eye*>(org.get()); ey && ey->night_vision)
                         return 888;
+                if (auto ea = dynamic_cast<ear*>(org.get()); ea && ea->enhanced_hearing)
+                        return 666;
+                if (auto no = dynamic_cast<nose*>(org.get()); no && no->keen_smell)
+                        return 0;
                 if (auto sk = dynamic_cast<epidermis*>(org.get()); sk && sk->camouflage)
                         return 555;
         }

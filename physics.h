@@ -19,6 +19,20 @@ struct photon : particle {
         : particle("Photon", 0.0f, 0.0f), wavelength(wl), intensity(inten) {}
 };
 
+struct phonon : particle {
+    float frequency{}; // in kHz
+    float amplitude{};
+    phonon(float freq = 1.0f, float amp = 1.0f)
+        : particle("Phonon", 0.0f, 0.0f), frequency(freq), amplitude(amp) {}
+};
+
+struct odoron : particle {
+    float molecule_weight{}; // in atomic mass units
+    float concentration{};  // arbitrary units
+    odoron(float mw = 10.0f, float conc = 1.0f)
+        : particle("Odoron", 0.0f, 0.0f), molecule_weight(mw), concentration(conc) {}
+};
+
 struct electron : particle {
     electron() : particle("Electron", 0.511f, -1.0f) {}
 };

@@ -7,6 +7,9 @@ int main()
 	auto aliens = alien::create( 1000 );
 
         photon light{550.0f, 1.0f};
+        phonon sound{2.0f, 1.0f};
+        odoron scent{5.0f, 1.0f};
+
         for ( int i = 0; i < aliens.size(); i++ )
         {
 		std::cout << "Health: " << aliens.at( i ).health << std::endl;
@@ -30,6 +33,16 @@ int main()
                         {
                                 auto signal = ey->see(light);
                                 std::cout << "Vision signal: " << signal[0] << ", " << signal[1] << std::endl;
+                        }
+                        if (auto ea = dynamic_cast<ear*>(org.get()))
+                        {
+                                auto audio = ea->hear(sound);
+                                std::cout << "Audio signal: " << audio[0] << ", " << audio[1] << std::endl;
+                        }
+                        if (auto no = dynamic_cast<nose*>(org.get()))
+                        {
+                                auto smell = no->smell(scent);
+                                std::cout << "Olfactory signal: " << smell[0] << ", " << smell[1] << std::endl;
                                 break;
                         }
                 }
