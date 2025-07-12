@@ -10,6 +10,29 @@ struct tissue {
     std::vector<cell> cells;
 };
 
+struct neural_network {
+    std::vector<std::vector<float>> weights;
+    int input_size{};
+    int output_size{};
+
+    neural_network(int input = 4, int output = 2) : input_size(input), output_size(output) {
+        weights.resize(input_size);
+        for (int i = 0; i < input_size; ++i) {
+            weights[i] = random_float_array(output_size, -1.0f, 1.0f);
+        }
+    }
+
+    std::vector<float> process(const std::vector<float>& inputs) {
+        std::vector<float> outputs(output_size, 0.0f);
+        for (int j = 0; j < output_size; ++j) {
+            for (int i = 0; i < input_size && i < static_cast<int>(inputs.size()); ++i) {
+                outputs[j] += inputs[i] * weights[i][j];
+            }
+        }
+        return outputs;
+    }
+};
+
 class organ {
 public:
     std::string name;
@@ -21,8 +44,10 @@ class brain : public organ {
 public:
     void* memory{};
     std::size_t capacity{};
+    neural_network network;
 
-    explicit brain(bool super_gene = false) {
+    explicit brain(bool super_gene = false)
+        : network( super_gene ? 8 : 4, super_gene ? 4 : 2 ) {
         name = "Brain";
         capacity = super_gene ? 2048 : 1024;
         memory = ::operator new(capacity);
