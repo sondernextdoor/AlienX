@@ -49,4 +49,11 @@ struct quark : particle {
         : particle("Quark", m, charge), flavor(std::move(flav)) {}
 };
 
+struct neutrino : particle {
+    float energy{}; // in MeV
+    float flux{};
+    neutrino(float e = 1.0f, float f = 1.0f)
+        : particle("Neutrino", 0.0f, 0.0f), energy(e), flux(f) {}
+};
+
 #endif // PHYSICS_H

@@ -8,6 +8,7 @@ int main()
 
         photon light{550.0f, 1.0f};
         phonon sound{2.0f, 1.0f};
+        neutrino nu{1.0f, 0.5f};
         for ( int i = 0; i < aliens.size(); i++ )
         {
 		std::cout << "Health: " << aliens.at( i ).health << std::endl;
@@ -36,6 +37,11 @@ int main()
                         {
                                 auto audio = ea->hear(sound);
                                 std::cout << "Audio signal: " << audio[0] << ", " << audio[1] << std::endl;
+                        }
+                        if (auto an = dynamic_cast<antenna*>(org.get()))
+                        {
+                                auto n = an->detect(nu);
+                                std::cout << "Neutrino signal: " << n[0] << ", " << n[1] << std::endl;
                         }
                 }
         }

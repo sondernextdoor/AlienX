@@ -141,6 +141,22 @@ public:
     }
 };
 
+class antenna : public organ {
+public:
+    bool neutrino_sensor{};
+    neural_network network;
+
+    explicit antenna(bool super_gene = false)
+        : network(2, 2) {
+        name = "Antenna";
+        neutrino_sensor = super_gene;
+    }
+
+    std::vector<float> detect(const neutrino& nu) {
+        return network.process({nu.energy, nu.flux});
+    }
+};
+
 class epidermis : public organ {
 public:
     bool camouflage{};

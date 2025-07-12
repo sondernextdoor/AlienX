@@ -11,8 +11,8 @@ void alien::design( alien& newborn )
 
 	vector <int> macro_variation_array{ random_integer_array( 4, 0, 20 ) };
 	vector <int> micro_variation_array{ random_integer_array( 3, 0, 20 ) };
-        int super_gene{ random_integer( 0, 1000 ) };
-        int species_choice{ random_integer( 0, 4) };
+       int super_gene{ random_integer( 0, 10000 ) };
+       int species_choice{ random_integer( 0, 4) };
         int random_height{ random_integer( 0, 20 ) };
         int random_weight{ random_integer( 0, 20 ) };
 
@@ -35,25 +35,27 @@ void alien::design( alien& newborn )
                 cells.push_back( base_cell );
         }
 
-        bool intelligence_super = (super_gene == 999);
-        bool health_super = (super_gene == 444);
-        bool strength_super = (super_gene == 777);
-        bool lung_super = (super_gene == 333);
-        bool liver_super = (super_gene == 111);
-        bool kidney_super = (super_gene == 222);
-        bool eye_super = (super_gene == 888);
-        bool ear_super = (super_gene == 666);
-        bool skin_super = (super_gene == 555);
+       bool intelligence_super = (super_gene == 999);
+       bool health_super = (super_gene == 444);
+       bool strength_super = (super_gene == 777);
+       bool lung_super = (super_gene == 333);
+       bool liver_super = (super_gene == 111);
+       bool kidney_super = (super_gene == 222);
+       bool eye_super = (super_gene == 888);
+       bool ear_super = (super_gene == 666);
+       bool skin_super = (super_gene == 555);
+       bool antenna_super = (super_gene == 1111);
 
-        std::shared_ptr<brain> brain_ptr = std::make_shared<brain>(intelligence_super);
-        std::shared_ptr<heart> heart_ptr = std::make_shared<heart>(health_super);
-        std::shared_ptr<muscle> muscle_ptr = std::make_shared<muscle>(strength_super);
-        std::shared_ptr<lung> lung_ptr = std::make_shared<lung>(lung_super);
-        std::shared_ptr<liver> liver_ptr = std::make_shared<liver>(liver_super);
-        std::shared_ptr<kidney> kidney_ptr = std::make_shared<kidney>(kidney_super);
-        std::shared_ptr<eye> eye_ptr = std::make_shared<eye>(eye_super);
-        std::shared_ptr<ear> ear_ptr = std::make_shared<ear>(ear_super);
-        std::shared_ptr<epidermis> skin_ptr = std::make_shared<epidermis>(skin_super);
+       std::shared_ptr<brain> brain_ptr = std::make_shared<brain>(intelligence_super);
+       std::shared_ptr<heart> heart_ptr = std::make_shared<heart>(health_super);
+       std::shared_ptr<muscle> muscle_ptr = std::make_shared<muscle>(strength_super);
+       std::shared_ptr<lung> lung_ptr = std::make_shared<lung>(lung_super);
+       std::shared_ptr<liver> liver_ptr = std::make_shared<liver>(liver_super);
+       std::shared_ptr<kidney> kidney_ptr = std::make_shared<kidney>(kidney_super);
+       std::shared_ptr<eye> eye_ptr = std::make_shared<eye>(eye_super);
+       std::shared_ptr<ear> ear_ptr = std::make_shared<ear>(ear_super);
+       std::shared_ptr<epidermis> skin_ptr = std::make_shared<epidermis>(skin_super);
+       std::shared_ptr<antenna> antenna_ptr = std::make_shared<antenna>(antenna_super);
 
         tissue neural{"Neural"};
         tissue cardiac{"Cardiac"};
@@ -61,9 +63,10 @@ void alien::design( alien& newborn )
         tissue pulmonary{"Pulmonary"};
         tissue hepatic{"Hepatic"};
         tissue renal{"Renal"};
-        tissue ocular{"Ocular"};
-        tissue auditory{"Auditory"};
-        tissue dermal{"Dermal"};
+       tissue ocular{"Ocular"};
+       tissue auditory{"Auditory"};
+       tissue antenna_tissue{"Antenna"};
+       tissue dermal{"Dermal"};
 
         for (int i = 0; i < cells.size(); ++i)
         {
@@ -81,11 +84,13 @@ void alien::design( alien& newborn )
                         renal.cells.push_back(cells[i]);
                 else if (i < 900)
                         ocular.cells.push_back(cells[i]);
-                else if (i < 950)
+               else if (i < 950)
                         auditory.cells.push_back(cells[i]);
-                else
+               else if (i < 975)
+                        antenna_tissue.cells.push_back(cells[i]);
+               else
                         dermal.cells.push_back(cells[i]);
-        }
+       }
 
         brain_ptr->tissues.push_back(neural);
         heart_ptr->tissues.push_back(cardiac);
@@ -94,8 +99,9 @@ void alien::design( alien& newborn )
         liver_ptr->tissues.push_back(hepatic);
         kidney_ptr->tissues.push_back(renal);
         eye_ptr->tissues.push_back(ocular);
-        ear_ptr->tissues.push_back(auditory);
-        skin_ptr->tissues.push_back(dermal);
+       ear_ptr->tissues.push_back(auditory);
+       antenna_ptr->tissues.push_back(antenna_tissue);
+       skin_ptr->tissues.push_back(dermal);
 
         newborn.anatomy.organs.push_back(brain_ptr);
         newborn.anatomy.organs.push_back(heart_ptr);
@@ -104,8 +110,9 @@ void alien::design( alien& newborn )
         newborn.anatomy.organs.push_back(liver_ptr);
         newborn.anatomy.organs.push_back(kidney_ptr);
         newborn.anatomy.organs.push_back(eye_ptr);
-        newborn.anatomy.organs.push_back(ear_ptr);
-        newborn.anatomy.organs.push_back(skin_ptr);
+       newborn.anatomy.organs.push_back(ear_ptr);
+       newborn.anatomy.organs.push_back(antenna_ptr);
+       newborn.anatomy.organs.push_back(skin_ptr);
 
 
 	char height_allele{
@@ -331,6 +338,8 @@ int alien::super_gene_carrier( alien subject )
                         return 888;
                 if (auto ea = dynamic_cast<ear*>(org.get()); ea && ea->enhanced_hearing)
                         return 666;
+                if (auto an = dynamic_cast<antenna*>(org.get()); an && an->neutrino_sensor)
+                        return 1111;
                 if (auto sk = dynamic_cast<epidermis*>(org.get()); sk && sk->camouflage)
                         return 555;
         }
