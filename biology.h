@@ -1,5 +1,6 @@
 #pragma once
 #include "cell.h"
+#include "physics.h"
 #include <string>
 #include <vector>
 #include <memory>
@@ -48,6 +49,13 @@ public:
 
     explicit brain(bool super_gene = false)
         : network( super_gene ? 8 : 4, super_gene ? 4 : 2 ) {
+=======
+    neural_network network;
+
+    explicit brain(bool super_gene = false)
+        : network( super_gene ? 8 : 4, super_gene ? 4 : 2 ) {
+
+    explicit brain(bool super_gene = false) {
         name = "Brain";
         capacity = super_gene ? 2048 : 1024;
         memory = ::operator new(capacity);
@@ -111,6 +119,17 @@ public:
 class eye : public organ {
 public:
     bool night_vision{};
+    neural_network network;
+
+    explicit eye(bool super_gene = false)
+        : network(2, 2) {
+        name = "Eye";
+        night_vision = super_gene;
+    }
+
+    std::vector<float> see(const photon& light) {
+        return network.process({light.wavelength, light.intensity});
+    }
 
     explicit eye(bool super_gene = false) {
         name = "Eye";
