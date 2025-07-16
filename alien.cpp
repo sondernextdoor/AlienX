@@ -2,680 +2,91 @@
 #include <sstream>
 #include <iomanip>
 
+void alien::design(alien& newborn) {
+    int species_choice = random_integer(0,1);
+    if (species_choice == 0) {
+        newborn = grey();
+    } else {
+        newborn = reptilian();
+    }
 
-void alien::design( alien& newborn )
-{
-	if ( newborn.dna_sequence.empty() != true )
-	{
-		return;
-	}
+    cell base = cell::base_cell(newborn.chromosome_count, newborn.standard_sequence);
+    newborn.cells.assign(100, base);
 
+    newborn.height = random_float(std::get<0>(newborn.height_range), std::get<1>(newborn.height_range));
+    newborn.weight = random_float(std::get<0>(newborn.weight_range), std::get<1>(newborn.weight_range));
+    newborn.health = 100.0f;
+    newborn.strength = 10.0f;
+    newborn.intelligence = 100.0f;
 
-	vector <int> macro_variation_array{ random_integer_array( 4, 0, 20 ) };
-	vector <int> micro_variation_array{ random_integer_array( 3, 0, 20 ) };
+    newborn.anatomy.organs.push_back(std::make_shared<brain>());
+    newborn.anatomy.organs.push_back(std::make_shared<heart>());
+    newborn.anatomy.organs.push_back(std::make_shared<muscle>());
+    newborn.anatomy.organs.push_back(std::make_shared<lung>());
+    newborn.anatomy.organs.push_back(std::make_shared<liver>());
+    newborn.anatomy.organs.push_back(std::make_shared<kidney>());
+    newborn.anatomy.organs.push_back(std::make_shared<eye>());
+    newborn.anatomy.organs.push_back(std::make_shared<ear>());
+    newborn.anatomy.organs.push_back(std::make_shared<nose>());
+    newborn.anatomy.organs.push_back(std::make_shared<epidermis>());
 
-       int super_gene{ random_integer( 0, 10000 ) };
-       int species_choice{ random_integer( 0, 4) };
-        int random_height{ random_integer( 0, 20 ) };
-        int random_weight{ random_integer( 0, 20 ) };
-
-
-        if ( species_choice == 4 )
-
-        int super_gene{ random_integer( 0, 1000 ) };
-        int species_choice{ random_integer( 0, 4) };
-        int random_height{ random_integer( 0, 20 ) };
-        int random_weight{ random_integer( 0, 20 ) };
-
-
-        if ( species_choice == 4 )
-        int super_gene{ random_integer( 0, 1000 ) };
-        int species_choice{ random_integer( 0, 4) };
-        int random_height{ random_integer( 0, 20 ) };
-        int random_weight{ random_integer( 0, 20 ) };
-
-
-        if ( species_choice == 4 )
-	{
-		newborn = reptilian();
-	} 
-	else
-	{
-		newborn = grey();
-	}
-
-
-	cell base_cell{ cell::base_cell( newborn.chromosome_count, newborn.standard_sequence ) };
-
-
-        for ( int i = 0; i < 1000; i++ )
-        {
-                cells.push_back( base_cell );
-        }
-
-       bool intelligence_super = (super_gene == 999);
-       bool health_super = (super_gene == 444);
-       bool strength_super = (super_gene == 777);
-       bool lung_super = (super_gene == 333);
-       bool liver_super = (super_gene == 111);
-       bool kidney_super = (super_gene == 222);
-       bool eye_super = (super_gene == 888);
-       bool ear_super = (super_gene == 666);
-       bool skin_super = (super_gene == 555);
-       bool antenna_super = (super_gene == 1111);
-
-       std::shared_ptr<brain> brain_ptr = std::make_shared<brain>(intelligence_super);
-       std::shared_ptr<heart> heart_ptr = std::make_shared<heart>(health_super);
-       std::shared_ptr<muscle> muscle_ptr = std::make_shared<muscle>(strength_super);
-       std::shared_ptr<lung> lung_ptr = std::make_shared<lung>(lung_super);
-       std::shared_ptr<liver> liver_ptr = std::make_shared<liver>(liver_super);
-       std::shared_ptr<kidney> kidney_ptr = std::make_shared<kidney>(kidney_super);
-       std::shared_ptr<eye> eye_ptr = std::make_shared<eye>(eye_super);
-       std::shared_ptr<ear> ear_ptr = std::make_shared<ear>(ear_super);
-       std::shared_ptr<epidermis> skin_ptr = std::make_shared<epidermis>(skin_super);
-       std::shared_ptr<antenna> antenna_ptr = std::make_shared<antenna>(antenna_super);
-
-        tissue neural{"Neural"};
-        tissue cardiac{"Cardiac"};
-        tissue muscular{"Muscle"};
-        tissue pulmonary{"Pulmonary"};
-        tissue hepatic{"Hepatic"};
-        tissue renal{"Renal"};
-       tissue ocular{"Ocular"};
-       tissue auditory{"Auditory"};
-       tissue antenna_tissue{"Antenna"};
-       tissue dermal{"Dermal"};
-
-        for (int i = 0; i < cells.size(); ++i)
-        {
-                if (i < 150)
-                        neural.cells.push_back(cells[i]);
-                else if (i < 300)
-                        cardiac.cells.push_back(cells[i]);
-                else if (i < 450)
-                        muscular.cells.push_back(cells[i]);
-                else if (i < 600)
-                        pulmonary.cells.push_back(cells[i]);
-                else if (i < 700)
-                        hepatic.cells.push_back(cells[i]);
-                else if (i < 800)
-                        renal.cells.push_back(cells[i]);
-                else if (i < 900)
-                        ocular.cells.push_back(cells[i]);
-               else if (i < 950)
-                        auditory.cells.push_back(cells[i]);
-               else if (i < 975)
-                        antenna_tissue.cells.push_back(cells[i]);
-               else
-                        dermal.cells.push_back(cells[i]);
-       }
-
-        brain_ptr->tissues.push_back(neural);
-        heart_ptr->tissues.push_back(cardiac);
-        muscle_ptr->tissues.push_back(muscular);
-        lung_ptr->tissues.push_back(pulmonary);
-        liver_ptr->tissues.push_back(hepatic);
-        kidney_ptr->tissues.push_back(renal);
-        eye_ptr->tissues.push_back(ocular);
-       ear_ptr->tissues.push_back(auditory);
-       antenna_ptr->tissues.push_back(antenna_tissue);
-       skin_ptr->tissues.push_back(dermal);
-
-        newborn.anatomy.organs.push_back(brain_ptr);
-        newborn.anatomy.organs.push_back(heart_ptr);
-        newborn.anatomy.organs.push_back(muscle_ptr);
-        newborn.anatomy.organs.push_back(lung_ptr);
-        newborn.anatomy.organs.push_back(liver_ptr);
-        newborn.anatomy.organs.push_back(kidney_ptr);
-        newborn.anatomy.organs.push_back(eye_ptr);
-       newborn.anatomy.organs.push_back(ear_ptr);
-       newborn.anatomy.organs.push_back(antenna_ptr);
-       newborn.anatomy.organs.push_back(skin_ptr);
-
-        for ( int i = 0; i < 1000; i++ )
-        {
-                cells.push_back( base_cell );
-        }
-
-        bool intelligence_super = (super_gene == 999);
-        bool health_super = (super_gene == 444);
-        bool strength_super = (super_gene == 777);
-        bool lung_super = (super_gene == 333);
-        bool liver_super = (super_gene == 111);
-        bool kidney_super = (super_gene == 222);
-        bool eye_super = (super_gene == 888);
-        bool ear_super = (super_gene == 666);
-        bool nose_super = (super_gene == 0);
-        bool skin_super = (super_gene == 555);
-
-        std::shared_ptr<brain> brain_ptr = std::make_shared<brain>(intelligence_super);
-        std::shared_ptr<heart> heart_ptr = std::make_shared<heart>(health_super);
-        std::shared_ptr<muscle> muscle_ptr = std::make_shared<muscle>(strength_super);
-        std::shared_ptr<lung> lung_ptr = std::make_shared<lung>(lung_super);
-        std::shared_ptr<liver> liver_ptr = std::make_shared<liver>(liver_super);
-        std::shared_ptr<kidney> kidney_ptr = std::make_shared<kidney>(kidney_super);
-        std::shared_ptr<eye> eye_ptr = std::make_shared<eye>(eye_super);
-        std::shared_ptr<ear> ear_ptr = std::make_shared<ear>(ear_super);
-        std::shared_ptr<nose> nose_ptr = std::make_shared<nose>(nose_super);
-        std::shared_ptr<epidermis> skin_ptr = std::make_shared<epidermis>(skin_super);
-
-        tissue neural{"Neural"};
-        tissue cardiac{"Cardiac"};
-        tissue muscular{"Muscle"};
-        tissue pulmonary{"Pulmonary"};
-        tissue hepatic{"Hepatic"};
-        tissue renal{"Renal"};
-        tissue ocular{"Ocular"};
-        tissue auditory{"Auditory"};
-        tissue olfactory{"Olfactory"};
-        tissue dermal{"Dermal"};
-
-        for (int i = 0; i < cells.size(); ++i)
-        {
-                if (i < 100)
-                        neural.cells.push_back(cells[i]);
-                else if (i < 200)
-                        cardiac.cells.push_back(cells[i]);
-                else if (i < 300)
-                        muscular.cells.push_back(cells[i]);
-                else if (i < 400)
-                        pulmonary.cells.push_back(cells[i]);
-                else if (i < 500)
-                        hepatic.cells.push_back(cells[i]);
-                else if (i < 600)
-                        renal.cells.push_back(cells[i]);
-                else if (i < 700)
-                        ocular.cells.push_back(cells[i]);
-                else if (i < 800)
-                        auditory.cells.push_back(cells[i]);
-                else if (i < 900)
-                        olfactory.cells.push_back(cells[i]);
-                else
-                        dermal.cells.push_back(cells[i]);
-        }
-
-        brain_ptr->tissues.push_back(neural);
-        heart_ptr->tissues.push_back(cardiac);
-        muscle_ptr->tissues.push_back(muscular);
-        lung_ptr->tissues.push_back(pulmonary);
-        liver_ptr->tissues.push_back(hepatic);
-        kidney_ptr->tissues.push_back(renal);
-        eye_ptr->tissues.push_back(ocular);
-        ear_ptr->tissues.push_back(auditory);
-        nose_ptr->tissues.push_back(olfactory);
-        skin_ptr->tissues.push_back(dermal);
-
-        newborn.anatomy.organs.push_back(brain_ptr);
-        newborn.anatomy.organs.push_back(heart_ptr);
-        newborn.anatomy.organs.push_back(muscle_ptr);
-        newborn.anatomy.organs.push_back(lung_ptr);
-        newborn.anatomy.organs.push_back(liver_ptr);
-        newborn.anatomy.organs.push_back(kidney_ptr);
-        newborn.anatomy.organs.push_back(eye_ptr);
-        newborn.anatomy.organs.push_back(ear_ptr);
-        newborn.anatomy.organs.push_back(nose_ptr);
-        newborn.anatomy.organs.push_back(skin_ptr);
-
-        for ( int i = 0; i < 1000; i++ )
-        {
-                cells.push_back( base_cell );
-        }
-
-        bool intelligence_super = (super_gene == 999);
-        bool health_super = (super_gene == 444);
-        bool strength_super = (super_gene == 777);
-        bool lung_super = (super_gene == 333);
-        bool liver_super = (super_gene == 111);
-        bool kidney_super = (super_gene == 222);
-        bool eye_super = (super_gene == 888);
-        bool ear_super = (super_gene == 666);
-        bool nose_super = (super_gene == 0);
-        bool skin_super = (super_gene == 555);
-
-        std::shared_ptr<brain> brain_ptr = std::make_shared<brain>(intelligence_super);
-        std::shared_ptr<heart> heart_ptr = std::make_shared<heart>(health_super);
-        std::shared_ptr<muscle> muscle_ptr = std::make_shared<muscle>(strength_super);
-        std::shared_ptr<lung> lung_ptr = std::make_shared<lung>(lung_super);
-        std::shared_ptr<liver> liver_ptr = std::make_shared<liver>(liver_super);
-        std::shared_ptr<kidney> kidney_ptr = std::make_shared<kidney>(kidney_super);
-        std::shared_ptr<eye> eye_ptr = std::make_shared<eye>(eye_super);
-
-        std::shared_ptr<ear> ear_ptr = std::make_shared<ear>(ear_super);
-        std::shared_ptr<nose> nose_ptr = std::make_shared<nose>(nose_super);
-
-        std::shared_ptr<epidermis> skin_ptr = std::make_shared<epidermis>(skin_super);
-
-        tissue neural{"Neural"};
-        tissue cardiac{"Cardiac"};
-        tissue muscular{"Muscle"};
-        tissue pulmonary{"Pulmonary"};
-        tissue hepatic{"Hepatic"};
-        tissue renal{"Renal"};
-        tissue ocular{"Ocular"};
-
-        tissue auditory{"Auditory"};
-        tissue olfactory{"Olfactory"};
-
-        tissue dermal{"Dermal"};
-
-        for (int i = 0; i < cells.size(); ++i)
-        {
-                if (i < 100)
-                        neural.cells.push_back(cells[i]);
-                else if (i < 200)
-                        cardiac.cells.push_back(cells[i]);
-                else if (i < 300)
-                        muscular.cells.push_back(cells[i]);
-                else if (i < 400)
-                        pulmonary.cells.push_back(cells[i]);
-                else if (i < 500)
-                        hepatic.cells.push_back(cells[i]);
-                else if (i < 600)
-                        renal.cells.push_back(cells[i]);
-                else if (i < 700)
-                        ocular.cells.push_back(cells[i]);
-                else if (i < 800)
-                        auditory.cells.push_back(cells[i]);
-                else if (i < 900)
-                        olfactory.cells.push_back(cells[i]);
-                if (i < 150)
-                        neural.cells.push_back(cells[i]);
-                else if (i < 300)
-                        cardiac.cells.push_back(cells[i]);
-                else if (i < 450)
-                        muscular.cells.push_back(cells[i]);
-                else if (i < 600)
-                        pulmonary.cells.push_back(cells[i]);
-                else if (i < 700)
-                        hepatic.cells.push_back(cells[i]);
-                else if (i < 800)
-                        renal.cells.push_back(cells[i]);
-                else if (i < 900)
-                        ocular.cells.push_back(cells[i]);
-                else
-                        dermal.cells.push_back(cells[i]);
-        }
-
-        brain_ptr->tissues.push_back(neural);
-        heart_ptr->tissues.push_back(cardiac);
-        muscle_ptr->tissues.push_back(muscular);
-        lung_ptr->tissues.push_back(pulmonary);
-        liver_ptr->tissues.push_back(hepatic);
-        kidney_ptr->tissues.push_back(renal);
-        eye_ptr->tissues.push_back(ocular);
-        ear_ptr->tissues.push_back(auditory);
-        nose_ptr->tissues.push_back(olfactory);
-        skin_ptr->tissues.push_back(dermal);
-
-        newborn.anatomy.organs.push_back(brain_ptr);
-        newborn.anatomy.organs.push_back(heart_ptr);
-        newborn.anatomy.organs.push_back(muscle_ptr);
-        newborn.anatomy.organs.push_back(lung_ptr);
-        newborn.anatomy.organs.push_back(liver_ptr);
-        newborn.anatomy.organs.push_back(kidney_ptr);
-        newborn.anatomy.organs.push_back(eye_ptr);
-        newborn.anatomy.organs.push_back(ear_ptr);
-        newborn.anatomy.organs.push_back(nose_ptr);
-        newborn.anatomy.organs.push_back(skin_ptr);
-
-
-	char height_allele{
-		( random_height <= 16 ? 'G' : 
-			( random_height == 17 ? 'A' : 
-				( random_height == 18 ? 'C' : 
-					( random_height == 19 ? 'T' : 
-						( random_height == 20 ? 'X' : 'G' ) )))) 
-	};
-
-
-	char weight_allele{
-		( random_weight <= 16 ? 'G' : 
-			( random_weight == 17 ? 'A' : 
-				( random_weight == 18 ? 'C' : 
-					( random_weight == 19 ? 'T' : 
-						( random_weight == 20 ? 'X' : 'G' ) ))))
-	};
-
-
-	cell::set_height_gene( newborn.cells, newborn.chromosome_count, height_allele );
-	cell::set_weight_gene( newborn.cells, newborn.chromosome_count, weight_allele );
-
-
-	newborn.height = ( 
-		height_allele == 'G' ? random_float( std::get<0>( newborn.height_range ) + 1.0f, std::get<0>( newborn.height_range ) + 1.5f ) : (
-			height_allele == 'A' ? random_float( std::get<0>( newborn.height_range ), std::get<0>( newborn.height_range ) + 0.5f ) : (
-				height_allele == 'C' ? random_float( std::get<0>( newborn.height_range ) + 0.5f, std::get<0>( newborn.height_range ) + 1.0f ) : (
-					height_allele == 'T' ? random_float( std::get<0>( newborn.height_range ) + 1.5f, std::get<0>( newborn.height_range ) + 2.0f ) : (
-						height_allele == 'X' ? random_float( std::get<0>( newborn.height_range ) + 2.0f, std::get<1>( newborn.height_range ) ) : random_float( 2.5f, 10.0f )
-					)
-				)
-			)
-		)
-	);
-
-
-	newborn.weight = ( 
-		weight_allele == 'G' ? random_float( std::get<0>( newborn.weight_range ) + 30.0f, std::get<0>( newborn.weight_range ) + 60.0f ) : (
-			weight_allele == 'A' ? random_float( std::get<0>( newborn.weight_range ), std::get<0>( newborn.weight_range ) + 10.0f ) : (
-				weight_allele == 'C' ? random_float( std::get<0>( newborn.weight_range ) + 10.0f, std::get<0>( newborn.weight_range ) + 40.0f ) : (
-					weight_allele == 'T' ? random_float( std::get<0>( newborn.weight_range ) + 60.0f, std::get<0>( newborn.weight_range ) + 80.0f ) : (
-						weight_allele == 'X' ? random_float( std::get<0>( newborn.weight_range ) + 80.0f, std::get<1>( newborn.weight_range ) ) : random_float( 60.0f, 400.0f )
-					)
-				)
-			)
-		)
-	);
-
-
-	if ( super_gene == 444 )
-	{
-		cell::set_health_gene( newborn.cells, newborn.chromosome_count, "GGGG" );
-	}
-	else if ( macro_variation_array.at( 0 ) == 1 )
-	{
-		cell::set_health_gene( newborn.cells, newborn.chromosome_count, "GGGA" );
-	}
-	else
-	{
-		micro_variation_array.at( 0 ) == 5 ? cell::set_health_gene( newborn.cells, newborn.chromosome_count, "GAAA" ) : cell::set_health_gene( newborn.cells, newborn.chromosome_count, "GGAA" );
-	}
-
-
-	if ( super_gene == 777 )
-	{
-		cell::set_strength_gene( newborn.cells, newborn.chromosome_count, "CCCC" );
-	}
-	else if ( macro_variation_array.at( 1 ) == 2 )
-	{
-		cell::set_strength_gene( newborn.cells, newborn.chromosome_count, "CCCA" );
-	}
-	else
-	{
-		micro_variation_array.at( 1 ) == 6 ? cell::set_strength_gene( newborn.cells, newborn.chromosome_count, "CCXA" ) : cell::set_strength_gene( newborn.cells, newborn.chromosome_count, "CCAA" );
-	}
-
-
-	if ( super_gene == 999 )
-	{
-		cell::set_intelligence_gene( newborn.cells, newborn.chromosome_count, "XXXX" );
-	}
-	else if ( macro_variation_array.at( 2 ) == 3 )
-	{
-		cell::set_intelligence_gene( newborn.cells, newborn.chromosome_count, "XXXA" );
-	}
-	else
-	{
-		micro_variation_array.at( 2 ) == 7 ? cell::set_intelligence_gene( newborn.cells, newborn.chromosome_count, "XXCA" ) : cell::set_intelligence_gene( newborn.cells, newborn.chromosome_count, "XXAA" );
-	}
-
-
-	newborn.dna_sequence.append(
-		newborn.cells.at( 0 ).nucleus_data.chromosome[0].dna.HE1.allele1
-			).append(
-				newborn.cells.at( 0 ).nucleus_data.chromosome[0].dna.HE1.allele2
-					).append(
-						newborn.cells.at( 0 ).nucleus_data.chromosome[0].dna.HE1.allele3
-							).append(
-								newborn.cells.at( 0 ).nucleus_data.chromosome[0].dna.HE1.allele4
-								);
-
-	newborn.dna_sequence.append(
-		newborn.cells.at( 0 ).nucleus_data.chromosome[0].dna.ST1.allele1
-			).append(
-				newborn.cells.at( 0 ).nucleus_data.chromosome[0].dna.ST1.allele2
-					).append(
-						newborn.cells.at( 0 ).nucleus_data.chromosome[0].dna.ST1.allele3
-							).append(
-								newborn.cells.at( 0 ).nucleus_data.chromosome[0].dna.ST1.allele4
-								);
-
-	newborn.dna_sequence.append(
-		newborn.cells.at( 0 ).nucleus_data.chromosome[0].dna.IN1.allele1
-			).append(
-				newborn.cells.at( 0 ).nucleus_data.chromosome[0].dna.IN1.allele2
-					).append(
-						newborn.cells.at( 0 ).nucleus_data.chromosome[0].dna.IN1.allele3
-							).append(
-								newborn.cells.at( 0 ).nucleus_data.chromosome[0].dna.IN1.allele4
-								);
-
-	newborn.dna_sequence.append(
-		newborn.cells.at( 0 ).nucleus_data.chromosome[0].dna.AP1.allele1
-			).append(
-				newborn.cells.at( 0 ).nucleus_data.chromosome[0].dna.AP1.allele2
-					).append(
-						newborn.cells.at( 0 ).nucleus_data.chromosome[0].dna.AP1.allele3
-							).append(
-								newborn.cells.at( 0 ).nucleus_data.chromosome[0].dna.AP1.allele4
-								);
+    const auto& dna = newborn.cells[0].nucleus_data.chromosome[0].dna;
+    newborn.dna_sequence = dna.HE1.allele1 + dna.HE1.allele2 + dna.HE1.allele3 + dna.HE1.allele4 +
+                           dna.ST1.allele1 + dna.ST1.allele2 + dna.ST1.allele3 + dna.ST1.allele4 +
+                           dna.IN1.allele1 + dna.IN1.allele2 + dna.IN1.allele3 + dna.IN1.allele4 +
+                           dna.AP1.allele1 + dna.AP1.allele2 + dna.AP1.allele3 + dna.AP1.allele4;
+    newborn.color = newborn.calculate_color();
 }
 
-
-alien alien::create()
-{
-	alien newborn{};
-	signed int health_addition{ 0 };
-	signed int strength_addition{ 0 };
-	signed int intelligence_addition{ 0 };
-
-
-	newborn.design( newborn );
-
-
-	for ( int i = 0; i < newborn.allele_max * newborn.gene_count; i++ )
-	{
-		if ( newborn.dna_sequence.at( i ) != newborn.standard_sequence.at( i ) )
-		{
-			switch ( int section{ ( i / newborn.gene_count ) + 1 } )
-			{
-				case 1: 
-				{ 
-					health_addition = ( newborn.dna_sequence.at( i ) == 'G' ? 50 : -50 ); 
-				} break;
-
-
-				case 2:
-				{
-					strength_addition = ( newborn.dna_sequence.at( i ) == 'C' ? 5 : -5 ); 
-
-					if ( newborn.dna_sequence.at( i ) == 'X' )
-					{
-						intelligence_addition += 20;
-					}
-
-				} break;
-
-
-				case 3: { 
-
-					intelligence_addition = ( newborn.dna_sequence.at( i ) == 'X' ? 50 : -50 ); 
-
-					if ( newborn.dna_sequence.at( i ) == 'G' )
-					{
-						health_addition += 20;
-					}
-					else if ( newborn.dna_sequence.at( i ) == 'C' )
-					{
-						strength_addition += 3;
-					}
-
-				} break;
-			}
-		}
-	}
-
-	newborn.health = 100 + health_addition + ( newborn.cells.at( 0 ).nucleus_data.chromosome[0].dna.HE1.allele4.at( 0 ) == 'G' ? 100 : 0 );
-	newborn.strength = 10 + strength_addition + ( newborn.cells.at( 0 ).nucleus_data.chromosome[0].dna.ST1.allele4.at( 0 ) == 'C' ? 10 : 0 );
-	newborn.intelligence = 100 + intelligence_addition + ( newborn.cells.at( 0 ).nucleus_data.chromosome[0].dna.IN1.allele4.at( 0 ) == 'X' ? 100 : 0 );
-	newborn.color = newborn.calculate_color();
-
-	return newborn;
+alien alien::create() {
+    alien a;
+    a.design(a);
+    return a;
 }
 
-
-int alien::super_gene_carrier( alien subject )
-{
-        if ( subject.cells.at( 0 ).nucleus_data.chromosome[0].dna.HE1.allele4.at( 0 ) == 'G' )
-        {
-                return 444;
-        }
-  
-int alien::super_gene_carrier( alien subject )
-{
-        if ( subject.cells.at( 0 ).nucleus_data.chromosome[0].dna.HE1.allele4.at( 0 ) == 'G' )
-        {
-                return 444;
-        }
-  
-int alien::super_gene_carrier( alien subject )
-{
-        if ( subject.cells.at( 0 ).nucleus_data.chromosome[0].dna.HE1.allele4.at( 0 ) == 'G' )
-        {
-                return 444;
-        }
-		
-	if ( subject.cells.at( 0 ).nucleus_data.chromosome[0].dna.ST1.allele4.at( 0 ) == 'C' )
-	{
-		return 777;
-	}
-
-        if ( subject.cells.at( 0 ).nucleus_data.chromosome[0].dna.IN1.allele4.at( 0 ) == 'X' )
-        {
-                return 999;
-        }
-
-        for (const auto& org : subject.anatomy.organs)
-        {
-                if (auto lu = dynamic_cast<lung*>(org.get()); lu && lu->capacity > 1000)
-                        return 333;
-                if (auto li = dynamic_cast<liver*>(org.get()); li && li->detox_level > 1)
-                        return 111;
-                if (auto ki = dynamic_cast<kidney*>(org.get()); ki && ki->filter_rate > 1)
-                        return 222;
-                if (auto ey = dynamic_cast<eye*>(org.get()); ey && ey->night_vision)
-                        return 888;
-                if (auto ea = dynamic_cast<ear*>(org.get()); ea && ea->enhanced_hearing)
-                        return 666;
-                if (auto an = dynamic_cast<antenna*>(org.get()); an && an->neutrino_sensor)
-                        return 1111;
-                if (auto sk = dynamic_cast<epidermis*>(org.get()); sk && sk->camouflage)
-                        return 555;
-        }
-
-        return false;
-}
-        if ( subject.cells.at( 0 ).nucleus_data.chromosome[0].dna.IN1.allele4.at( 0 ) == 'X' )
-        {
-                return 999;
-        }
-
-        for (const auto& org : subject.anatomy.organs)
-        {
-                if (auto lu = dynamic_cast<lung*>(org.get()); lu && lu->capacity > 1000)
-                        return 333;
-                if (auto li = dynamic_cast<liver*>(org.get()); li && li->detox_level > 1)
-                        return 111;
-                if (auto ki = dynamic_cast<kidney*>(org.get()); ki && ki->filter_rate > 1)
-                        return 222;
-                if (auto ey = dynamic_cast<eye*>(org.get()); ey && ey->night_vision)
-                        return 888;
-                if (auto ea = dynamic_cast<ear*>(org.get()); ea && ea->enhanced_hearing)
-                        return 666;
-                if (auto no = dynamic_cast<nose*>(org.get()); no && no->keen_smell)
-                        return 0;
-                if (auto sk = dynamic_cast<epidermis*>(org.get()); sk && sk->camouflage)
-                        return 555;
-        }
-
-        return false;
-}
-        if ( subject.cells.at( 0 ).nucleus_data.chromosome[0].dna.IN1.allele4.at( 0 ) == 'X' )
-        {
-                return 999;
-        }
-
-        for (const auto& org : subject.anatomy.organs)
-        {
-                if (auto lu = dynamic_cast<lung*>(org.get()); lu && lu->capacity > 1000)
-                        return 333;
-                if (auto li = dynamic_cast<liver*>(org.get()); li && li->detox_level > 1)
-                        return 111;
-                if (auto ki = dynamic_cast<kidney*>(org.get()); ki && ki->filter_rate > 1)
-                        return 222;
-                if (auto ey = dynamic_cast<eye*>(org.get()); ey && ey->night_vision)
-                        return 888;
-                if (auto ea = dynamic_cast<ear*>(org.get()); ea && ea->enhanced_hearing)
-                        return 666;
-                if (auto no = dynamic_cast<nose*>(org.get()); no && no->keen_smell)
-                        return 0;
-                if (auto sk = dynamic_cast<epidermis*>(org.get()); sk && sk->camouflage)
-                        return 555;
-        }
-
-        return false;
+int alien::super_gene_carrier(alien subject) {
+    for (const auto& org : subject.anatomy.organs) {
+        if (auto br = dynamic_cast<brain*>(org.get()); br && br->capacity > 1024) return 999;
+        if (auto hr = dynamic_cast<heart*>(org.get()); hr && hr->chambers > 4) return 333;
+        if (auto ki = dynamic_cast<kidney*>(org.get()); ki && ki->filter_rate > 1) return 222;
+        if (auto li = dynamic_cast<liver*>(org.get()); li && li->detox_level > 1) return 111;
+        if (auto ey = dynamic_cast<eye*>(org.get()); ey && ey->night_vision) return 888;
+        if (auto ea = dynamic_cast<ear*>(org.get()); ea && ea->enhanced_hearing) return 666;
+        if (auto an = dynamic_cast<antenna*>(org.get()); an && an->neutrino_sensor) return 1111;
+        if (auto no = dynamic_cast<nose*>(org.get()); no && no->keen_smell) return 0;
+        if (auto sk = dynamic_cast<epidermis*>(org.get()); sk && sk->camouflage) return 555;
+    }
+    return 0;
 }
 
-string alien::calculate_color()
-{	
-	if ( this->cells.at( 0 ).nucleus_data.chromosome[0].dna.AP1.allele1.compare( "T" ) == 0 )
-	{
-		return "Green";
-	}
-
-	if ( this->cells.at( 0 ).nucleus_data.chromosome[0].dna.AP1.allele1.compare( "A" ) == 0 )
-	{
-		return "Grey";
-	}
-
-	if ( this->cells.at( 0 ).nucleus_data.chromosome[0].dna.AP1.allele1.compare( "C" ) == 0 )
-	{
-		return "Red";
-	}
-
-	if ( this->cells.at( 0 ).nucleus_data.chromosome[0].dna.AP1.allele1.compare( "G" ) == 0 )
-	{
-		return "Black";
-	}
-
-	if ( this->cells.at( 0 ).nucleus_data.chromosome[0].dna.AP1.allele1.compare( "X" ) == 0 )
-	{
-		return "Translucent";
-	}
-
-	return "Unknown";
+std::string alien::calculate_color() {
+    const auto& allele = cells[0].nucleus_data.chromosome[0].dna.AP1.allele1;
+    if (allele == "T") return "Green";
+    if (allele == "A") return "Grey";
+    if (allele == "C") return "Red";
+    if (allele == "G") return "Black";
+    if (allele == "X") return "Translucent";
+    return "Unknown";
 }
 
-
-vector <alien> alien::create( int count )
-{
-	vector <alien> aliens{};
-
-	for ( int i = 0; i < count; i++ )
-	{
-		aliens.push_back( create() );
-	}
-
-	return aliens;
+vector<alien> alien::create(int count) {
+    vector<alien> out;
+    for(int i=0;i<count;++i) {
+        out.push_back(create());
+    }
+    return out;
 }
 
+alien::alien() = default;
 
-alien::alien()
-{
-}
-}
-
-std::string alien::representation() const
-{
-        std::ostringstream os;
-        os << "  .-.\n";
-        os << " (o o)  Species: " << species << "\n";
-        os << " | O |  Color: " << color << "\n";
-        os << " |   |  H:" << std::fixed << std::setprecision(1) << height
-           << " W:" << weight << "\n";
-        os << " '---'\n";
-        return os.str();
+std::string alien::representation() const {
+    std::ostringstream os;
+    os << "  .-.\n";
+    os << " (o o)  Species: " << species << "\n";
+    os << " | O |  Color: " << color << "\n";
+    os << " |   |  H:" << std::fixed << std::setprecision(1) << height
+       << " W:" << weight << "\n";
+    os << " '---'\n";
+    return os.str();
 }
 
-alien::alien()
-{
-}
